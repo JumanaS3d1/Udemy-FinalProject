@@ -9,30 +9,33 @@ import java.util.List;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import Core_Task.Booking;
-import Core_Task.OpenBrowsers;
-import Core_Task.ReadCsvFile;
-import Core_Task.TakeScreenShot;
-import Core_Task.WriteCsvFile;
+
 import Core_Udemy.FeaturedTopics;
 import Core_Udemy.LoginClick;
 import Core_Udemy.LoginPage;
+import Core_Udemy.OpenBrowsers;
+import Core_Udemy.ReadCsvFile;
 import Core_Udemy.SearchCourses;
+import Core_Udemy.TakeScreenShot;
 import Core_Udemy.TopCategory;
 import Core_Udemy.UserCredentials;
+import Core_Udemy.WriteCsvFile;
 
 public class UdemyTest {
 
 	WebDriver driver;
 	ArrayList<String> outputHeaders = new ArrayList<String>();
 	ArrayList<ArrayList<String>> outputData = new ArrayList<ArrayList<String>>();
+
 
 	@BeforeSuite
 	public void beforeSuite() throws InterruptedException {
@@ -73,7 +76,7 @@ public class UdemyTest {
 
 	}
 
-	@Test(priority=2)
+	@Test(priority= 2)
 	public void topCategories() {
 		TopCategory topCat = new TopCategory(driver);
 		String[] headers = new String[1];
@@ -83,13 +86,10 @@ public class UdemyTest {
 
 	}
 
-	
-	
-	@Test(priority=4, dataProvider = "getData")
+	@Test(priority = 3, dataProvider = "getData")//, enabled = false)
 	public void searchSubjects(String name) throws InterruptedException, IOException {
-		
+
 		driver = OpenBrowsers.openBrowser("chrome");
-		// driver = OpenBrowsers.openchromeWithOptions();
 		Thread.sleep(3000);
 		driver.manage().window().maximize();
 		driver.get(name);
@@ -97,91 +97,80 @@ public class UdemyTest {
 		Thread.sleep(5000);
 		ArrayList<String> currOutput = new ArrayList<String>();
 		currOutput.add("Course Subject");
-		
 
-		
 		SearchCourses course = new SearchCourses(driver);
-		//course.searchSubject(name);
-	
-		
-		
+		// course.searchSubject(name);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,-500)", "");
+
 		TakeScreenShot takeSc = new TakeScreenShot(driver);
-		takeSc.takeScreenShot("downloads/"  + "_Search.jpg");
-		
+		takeSc.takeScreenShot("downloads/" + "_Search.jpg");
+
 		Thread.sleep(3000);
-		//course.clickSearch();
-		//Thread.sleep(10000);
-		
+		// course.clickSearch();
+		// Thread.sleep(10000);
+
 		String courseName = course.getCourseName();
-		Thread.sleep(1000);
-		String courserating= course.getRating();
-		Thread.sleep(1000);
+		String courserating = course.getRating();
 		String coursePrice = course.getPrice();
-		
-		Thread.sleep(4000);
+
+		Thread.sleep(2000);
 		currOutput.add(courseName);
-		Thread.sleep(1000);
 		currOutput.add(courserating);
-		Thread.sleep(1000);
 		currOutput.add(coursePrice);
-		
+
 		Thread.sleep(4000);
-		
-		
-//		course.clickCourse();
-//		String oldTab = driver.getWindowHandle();
-//		for (String winHandle : driver.getWindowHandles()) {
-//			driver.switchTo().window(winHandle);
-//		}
-//		
-//		Thread.sleep(5000);
-//		
-//		System.out.println(driver.getCurrentUrl());
-//		TakeScreenShot takeSc2 = new TakeScreenShot(driver);
-//		takeSc2.takeScreenShot("downloads/"  + "_Course_Info.jpg");
-//		String hotelURL = driver.getCurrentUrl();
-//		
-//		Thread.sleep(3000);
-//		
-//		currOutput.add(hotelURL);
+
 		outputData.add(currOutput);
-		
-//		driver.switchTo().window(oldTab);
-//		driver.navigate().back();
-		
+
 		Thread.sleep(4000);
-		
+
 		driver.quit();
+
+	}
+	@Test(priority = 4)
+	public void Filtering() throws InterruptedException {
+		driver = OpenBrowsers.openBrowser("chrome");
+		Thread.sleep(3000);
+		driver.manage().window().maximize();
+		driver.get("https://www.udemy.com/courses/music/");
+		Thread.sleep(3000);
+		driver.findElements(By.xpath("//*[@class=\"ud-accordion-panel-heading udlite-accordion-panel-heading\"]")).get(6).click();
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//*[@class=\"ud-toggle-input-container udlite-toggle-input-container ud-text-sm udlite-text-sm\"]")).click();
+		Thread.sleep(3000);
 		
 	}
-	
-	@Test(/*priority=3, groups= "login"*/ enabled = false)
+
+	@Test(priority = 4,  enabled = false)
 	public void logIn() throws InterruptedException, IOException {
+
+		driver = OpenBrowsers.openBrowser("chrome");
+		Thread.sleep(3000);
+		driver.manage().window().maximize();
+		driver.get("https://www.udemy.com/join/login-popup/");
+
 		LoginClick logClc = new LoginClick(driver);
-		
-		
-		logClc.clickLogin();
-		System.out.println("d43535435 here");
+
+		// logClc.clickLogin();
+		// System.out.println("d43535435 here");
 		Thread.sleep(4000);
 		LoginPage loginPage = new LoginPage(driver);
-		System.out.println("dsfsdfdsf here");
-		
-		
-	 UserCredentials cred = new UserCredentials();
-	 String username = cred.getUserName();
-	 String password = cred.getPass();
-		
+		// System.out.println("dsfsdfdsf here");
+
+		UserCredentials cred = new UserCredentials();
+		String username = cred.getUserName();
+		String password = cred.getPass();
+
 		loginPage.fillEmail(username);
 		loginPage.fillPassword(password);
-		loginPage.logIn();		
+		loginPage.logIn();
 	}
-	
-	
-	
 
 	@AfterSuite
 	public void afterSuite() {
-		//driver.quit();
+		// driver.quit();
 		List<String[]> data = new ArrayList<String[]>();
 		for (ArrayList<String> row : outputData) {
 			String[] row_data = new String[row.size()];

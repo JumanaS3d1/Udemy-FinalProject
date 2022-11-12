@@ -8,7 +8,7 @@
           <include name="beforeSuite"/>
           <include name="openB"/>
           <include name="afterSuite"/>
-          <include name="searchSubjects"/>
+          <include name="Filtering"/>
         </methods>
       </class> <!-- Test_Udemy.UdemyTest -->
     </classes>

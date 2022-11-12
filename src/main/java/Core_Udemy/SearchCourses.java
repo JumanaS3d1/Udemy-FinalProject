@@ -37,11 +37,15 @@ public class SearchCourses {
 		return driver.findElements(By.xpath("//*[@data-purpose=\"rating-number\"]")).get(0).getText();
 	}
 	public String getPrice() {
-		return "price";//driver.findElements(By.xpath("//*[@data-purpose=\"course-price-text\"]")).get(0).getText();
+		return driver.findElements(By.xpath("//*[@data-purpose=\"course-price-text\"]")).get(0).getText();
 	}
 	
 	public void clickCourse() {
 		driver.findElements(By.xpath("//*[@data-purpose=\"course-title-url\"]")).get(0).click();
+	}
+	
+	public void clickk() {
+		 driver.findElements(By.xpath("\"//*[@class=\\\"ud-accordion-panel-heading udlite-accordion-panel-heading\\\"]\"")).get(6).click();
 	}
 
 }
