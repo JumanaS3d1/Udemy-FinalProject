@@ -39,8 +39,8 @@ public class Booking {
 	public String getHotelName() {
 		return driver.findElement(By.xpath("//*[@data-testid=\"title\"]/..")).getText();
 	}
-	
-	public String getHotelReview() {
+											
+	public String getHotelReview() {			
 		return driver.findElement(By.xpath("//*[@data-testid=\"review-score\"]/..")).getText();
 	}
 	

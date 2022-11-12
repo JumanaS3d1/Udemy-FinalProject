@@ -1,0 +1,1 @@
+{"uuid":"4b330be7-824a-4a40-b64b-2deb4c85b419","name":"Default test","children":["6f0dd34e-a31b-466d-8cd3-47b1a2b51f01"],"befores":[{"name":"openB","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1668194448014,"stop":1668194456019}],"afters":[],"start":1668194447995,"stop":1668194458631}
